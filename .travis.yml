@@ -1,0 +1,17 @@
+language: generic
+
+#sudo level permissions required for docker - execute the build
+sudo: required
+
+# docker cli needs to be pre-installed ready to go
+services:
+  - docker
+
+#setup needed to occur before deploy or tests
+before_install:
+  # run the docker dev build - get back the docker image id
+  # tag so we can use the image - could use any tag (using convention)
+  - docker build -t natekavyar/docker-react -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true natekavyar/docker-react npm run test
