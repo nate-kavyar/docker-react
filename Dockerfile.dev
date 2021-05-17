@@ -1,0 +1,12 @@
+FROM node:alpine
+
+WORKDIR '/app'
+
+#this is still needed to get all the node modules in
+COPY package.json .
+RUN yarn install
+
+# not technically needed - kept just as reference if don't use docker compose
+COPY . .
+
+CMD ["yarn", "start"]

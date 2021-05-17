@@ -1,0 +1,23 @@
+version: '3'
+services:
+  #name of the service can be anything
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # use existing node modules in container
+      - /app/node_modules
+      # use everything else on host machine in app folder
+      - .:/app
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["yarn", "test"]
+
