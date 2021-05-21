@@ -7,11 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-<<<<<<< Updated upstream
-         I was changed !
-=======
          I was changed on the Feature Branch!
->>>>>>> Stashed changes
         </p>
         <a
           className="App-link"
