@@ -1,8 +1,36 @@
 language: generic
+
+#required to run the commands for building the container
 sudo: required
+
+# service needed prior to build
 services:
   - docker
+
+# build the docker image - tag it so it can be used later - using the dev docker file
+# dev dependencies are needed for testing
 before_install:
   - docker build -t natekavyar/docker-react -f Dockerfile.dev .
+
+# run docker passing in the environment variable CI
+# for the given tagged execute the npm run test command
+# CI = true will cause the tests to exit
+# 0 exit means success for travis
 script:
   - docker run -e CI=true natekavyar/docker-react npm run test
+
+# tells travis to deploy the app to elastic beanstalk on success
+# note the bucket will be used for all deployments
+# the first time the bucket path will be missing
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react"
+  env: "Dockerreact-env"
+  bucket_name: "elasticbeanstalk-us-east-1-814281708660"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+
